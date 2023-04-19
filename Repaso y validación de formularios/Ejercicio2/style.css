@@ -1,0 +1,16 @@
+#element {
+    width: 100px;
+    height: 100px;
+    background: red;
+    border-radius: 50%;
+    text-align: center;
+  }
+
+.enter{
+    background-color: orangered !important;
+}
+
+.leave{
+    background-color: black !important;
+}
+
