@@ -1,0 +1,74 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "description": "Tarea 1",
+      "state": false
+    },
+    {
+      "id": 2,
+      "description": "Ejercicio 2",
+      "state": false
+    },
+    {
+      "id": 3,
+      "description": "Tarea 3",
+      "state": false
+    },
+    {
+      "id": 4,
+      "description": "Comer",
+      "state": true
+    },
+    {
+      "id": 5,
+      "description": "Cocinar",
+      "state": true
+    },
+    {
+      "id": 6,
+      "description": "Tarea modificada",
+      "state": false
+    },
+    {
+      "description": "otra tarea mas",
+      "state": false,
+      "id": 7
+    },
+    {
+      "description": "new",
+      "state": false,
+      "id": 8
+    },
+    {
+      "description": "chat",
+      "state": false,
+      "id": 9
+    },
+    {
+      "description": "dale ya tu sabes",
+      "state": false,
+      "id": 10
+    },
+    {
+      "description": "dale ya tu sabes",
+      "state": false,
+      "id": 11
+    },
+    {
+      "description": "deberes",
+      "state": false,
+      "id": 12
+    },
+    {
+      "description": "s",
+      "state": false,
+      "id": 13
+    },
+    {
+      "description": "c",
+      "state": false,
+      "id": 14
+    }
+  ]
+}

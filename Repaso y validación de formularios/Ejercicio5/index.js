@@ -178,7 +178,7 @@ form.addEventListener('submit',(e)=>{
 
     if(isFormValid){
         console.log("enviado")
-       
+       form.submit();
     }
 })
 
