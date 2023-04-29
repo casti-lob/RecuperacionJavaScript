@@ -37,28 +37,42 @@ addTask = document.querySelector('#addTask');
 
 addTask.addEventListener('click',(e)=>{
     const peticionPost = new XMLHttpRequest()
-    const newTask={
-        description: document.querySelector('.new-task-container input').value,
-        state: false
+    const text = document.querySelector('.new-task-container input').value
+    if(text&& text!=" "){
+        const newTask={
+            description: text.trim(),
+            state: false
+        }
+        peticionPost.open('POST','http://localhost:3000/tasks/')
+        peticionPost.setRequestHeader('Content-type', 'application/json');
+        peticionPost.send(JSON.stringify(newTask));
+        console.log(peticionPost.status)
+        newTaskInIncomplete(newTask)
     }
-    peticionPost.open('POST','http://localhost:3000/tasks/')
-    peticionPost.setRequestHeader('Content-type', 'application/json');
-    peticionPost.send(JSON.stringify(newTask));
-    console.log(peticionPost.status)
-    newTaskInIncomplete(newTask)
+    
     
 })
 
 //intermedio
 incompleteToComplete= document.querySelector('.todo-list ul');
 
-incompleteToComplete.addEventListener('click',(e)=>{
+incompleteToComplete.addEventListener('change',(e)=>{
     element = e.target
     li = element.parentElement;
     textTask =li.children[1].textContent;
-   
-    addTaskToComplete(textTask)
-    deleteTask(li)
+   id = li.children[2].textContent;
+
+    const peticionPatch = new XMLHttpRequest()
+    const body={
+        description: textTask,
+        state: true
+    }
+    peticionPatch.open('PATCH', `http://localhost:3000/tasks/${id}`);
+    peticionPatch.setRequestHeader('Content-type', 'application/json');
+    peticionPatch.send(JSON.stringify(body));
+       
+    addTaskToComplete(body)
+    deleteTask(li,null)
    
     
 })
@@ -69,7 +83,9 @@ completeTasks= document.querySelector(".complete-list ul")
 completeTasks.addEventListener('click',(e)=>{
     const button = e.target;
     li = button.parentElement;
-    deleteTask(li);
+    id = li.children[1].textContent;
+    console.log(id)
+    deleteTask(li,id);
 })
 
 
@@ -83,13 +99,23 @@ function addTaskToComplete(textTask){
    buttonDelete.appendChild(textButton);
    liTask.appendChild(textComplete)
    liTask.appendChild(buttonDelete)
-
+     //añadimos un spam para añadir el id
+     spam = document.createElement("spam")
+    text= document.createTextNode(textTask.id)
+    spam.appendChild(text)
+    spam.setAttribute("hidden","true")
+    liTask.appendChild(spam)
    ul.appendChild(liTask)
    
    
 }
 
-function deleteTask(li){
+function deleteTask(li,id){
+    const peticionDelete = new XMLHttpRequest()
+    peticionDelete.open('DELETE', `http://localhost:3000/tasks/${id}`);
+    peticionDelete.send();
+
+
     li.remove();
 }
 

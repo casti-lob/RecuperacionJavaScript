@@ -1,19 +1,19 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "description": "Tarea 1",
-      "state": false
+      "state": "false",
+      "description": "Mod",
+      "id": 1
     },
     {
       "id": 2,
       "description": "Ejercicio 2",
-      "state": false
+      "state": true
     },
     {
       "id": 3,
       "description": "Tarea 3",
-      "state": false
+      "state": true
     },
     {
       "id": 4,
@@ -32,12 +32,12 @@
     },
     {
       "description": "otra tarea mas",
-      "state": false,
+      "state": true,
       "id": 7
     },
     {
       "description": "new",
-      "state": false,
+      "state": true,
       "id": 8
     },
     {
@@ -47,7 +47,7 @@
     },
     {
       "description": "dale ya tu sabes",
-      "state": false,
+      "state": true,
       "id": 10
     },
     {
@@ -59,16 +59,6 @@
       "description": "deberes",
       "state": false,
       "id": 12
-    },
-    {
-      "description": "s",
-      "state": false,
-      "id": 13
-    },
-    {
-      "description": "c",
-      "state": false,
-      "id": 14
     }
   ]
 }
