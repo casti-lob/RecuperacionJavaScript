@@ -1,4 +1,5 @@
 /* Peticion get*/
+/*
 const peticion=new XMLHttpRequest();
 peticion.open('GET', 'http://localhost:3000/tasks/');
 peticion.send();
@@ -21,6 +22,50 @@ peticion.addEventListener('load', function() {
 peticion.addEventListener('error', muestraError);
 peticion.addEventListener('abort', muestraError);
 peticion.addEventListener('timeout', muestraError);
+*/
+
+//Muestra las tareas
+fetch('http://localhost:3000/tasks/')
+.then(response => response.json())
+.then(tasks =>{
+    // for(i=0;i<tasks.length;i++){
+    //     console.log(tasks[i].category)
+    //     fetch(`http://localhost:3000/category/${tasks[i].category}`)
+    //     .then(req => req.json())
+    //     .then(category =>{
+    //         console.log(tasks[i].state)
+    //         if (tasks[i].state){
+    //             addTaskToComplete(tasks[i],category)
+    //         }else{
+    //             newTaskInIncomplete(tasks[i],category)
+    //         }
+    //     })
+       
+    // }
+    tasks.forEach(task => {
+        fetch(`http://localhost:3000/category/${task.category}`)
+        .then(req => req.json())
+        .then(category =>{
+            console.log(task.state)
+            if (task.state){
+                addTaskToComplete(task,category)
+            }else{
+                newTaskInIncomplete(task,category)
+            }
+        })
+    });
+})
+.catch(err=>{
+    console.log("Error: "+ err.message)
+})
+
+//Muestra las categorias
+fetch('http://localhost:3000/category/')
+.then(response => response.json())
+.then(category =>{
+    categorySelect(category)
+
+})
 
 
 function muestraError() {
@@ -36,6 +81,7 @@ function muestraError() {
 addTask = document.querySelector('#addTask');
 
 addTask.addEventListener('click',(e)=>{
+    /*
     const peticionPost = new XMLHttpRequest()
     const text = document.querySelector('.new-task-container input').value
     if(text&& text!=" "){
@@ -46,10 +92,34 @@ addTask.addEventListener('click',(e)=>{
         peticionPost.open('POST','http://localhost:3000/tasks/')
         peticionPost.setRequestHeader('Content-type', 'application/json');
         peticionPost.send(JSON.stringify(newTask));
+        
+       
         console.log(peticionPost.status)
         newTaskInIncomplete(newTask)
     }
-    
+    */
+    const text = document.querySelector('.new-task-container input').value
+    const newTask={
+        description: text.trim(),
+        state: false
+    }
+    fetch( 'http://localhost:3000/tasks/', {
+       method: 'POST',
+        body: JSON.stringify(newTask),
+        headers:{'Content-type': 'application/json'}
+   })
+   .then(response =>{
+       if (response.ok){
+        return response.json()
+       }
+       return Promise.reject(response)
+   })
+   .then(datos=>{
+        newTaskInIncomplete(datos)
+   } )
+   .catch (err => {
+       console.log("Error: "+ err.message)
+   })
     
 })
 
@@ -61,7 +131,11 @@ incompleteToComplete.addEventListener('change',(e)=>{
     li = element.parentElement;
     textTask =li.children[1].textContent;
    id = li.children[2].textContent;
-
+   const body={
+    description: textTask,
+    state: true
+}
+    /*
     const peticionPatch = new XMLHttpRequest()
     const body={
         description: textTask,
@@ -70,9 +144,24 @@ incompleteToComplete.addEventListener('change',(e)=>{
     peticionPatch.open('PATCH', `http://localhost:3000/tasks/${id}`);
     peticionPatch.setRequestHeader('Content-type', 'application/json');
     peticionPatch.send(JSON.stringify(body));
-       
-    addTaskToComplete(body)
-    deleteTask(li,null)
+    */
+
+    fetch(`http://localhost:3000/tasks/${id}`,{
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers:{'Content-type': 'application/json'}
+    })
+    .then(datos=>{
+        if(datos.ok){
+            addTaskToComplete(body)
+            deleteTask(li,null)
+        }
+        return Promise.reject(datos)
+        
+    })
+    .catch (err => {
+        console.log("Error: "+ err.message)
+    })
    
     
 })
@@ -89,9 +178,9 @@ completeTasks.addEventListener('click',(e)=>{
 })
 
 
-function addTaskToComplete(textTask){
+function addTaskToComplete(textTask,category){
    ul = document.querySelector(".complete-list ul")
-   textComplete = document.createTextNode(textTask.description)
+   textComplete = document.createTextNode(`${textTask.description} : Categoría ${category.name}`)
    liTask= document.createElement("li")
    textButton = document.createTextNode("Delete")
    buttonDelete= document.createElement("button")
@@ -111,20 +200,36 @@ function addTaskToComplete(textTask){
 }
 
 function deleteTask(li,id){
+    /*
     const peticionDelete = new XMLHttpRequest()
     peticionDelete.open('DELETE', `http://localhost:3000/tasks/${id}`);
     peticionDelete.send();
+    */
+   fetch(`http://localhost:3000/tasks/${id}`,{
+    method: 'DELETE'
+   })
+   .then(response=>{
+    if(response.ok){
+        li.remove();
+        
+    }
+    return Promise.reject(response)
+    
+    })
+    .catch (err => {
+        console.log("Error: "+ err.message)
+    })
+   
 
-
-    li.remove();
+   
 }
 
-function newTaskInIncomplete(newTask){
+function newTaskInIncomplete(newTask ,category){
     incompleteTask= document.querySelector('.todo-list ul')
     li = document.createElement('li');
     input= document.createElement('input');
     label=document.createElement('label');
-    text = document.createTextNode(newTask.description);
+    text = document.createTextNode(`${newTask.description}: Categoría ${category.name}`);
     input.setAttribute('type','checkbox')
     
     label.appendChild(text);
@@ -141,3 +246,14 @@ function newTaskInIncomplete(newTask){
 
 }
 
+//Creacion del select de category
+function categorySelect(category){
+    const  select = document.querySelector("#category")
+    for(i=0; i<category.length ; i++){
+        let option = document.createElement('option')
+        option.setAttribute('value',category[i].id)
+        let text = document.createTextNode(category[i].name)
+        option.appendChild(text)
+        select.appendChild(option)
+    }
+}

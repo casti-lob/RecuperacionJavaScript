@@ -1,64 +1,70 @@
 {
   "tasks": [
     {
-      "state": "false",
-      "description": "Mod",
-      "id": 1
-    },
-    {
       "id": 2,
       "description": "Ejercicio 2",
-      "state": true
+      "state": true,
+      "category": 1
     },
     {
       "id": 3,
       "description": "Tarea 3",
-      "state": true
+      "state": true,
+      "category": 2
     },
     {
       "id": 4,
       "description": "Comer",
-      "state": true
+      "state": true,
+      "category": 3
     },
     {
       "id": 5,
       "description": "Cocinar",
-      "state": true
+      "state": true,
+      "category": 4
     },
     {
       "id": 6,
       "description": "Tarea modificada",
-      "state": false
+      "state": false,
+      "category": 1
     },
     {
       "description": "otra tarea mas",
       "state": true,
-      "id": 7
+      "id": 7,
+      "category": 4
     },
     {
       "description": "new",
       "state": true,
-      "id": 8
+      "id": 8,
+      "category": 3
     },
     {
       "description": "chat",
       "state": false,
-      "id": 9
+      "id": 9,
+      "category": 2
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "name": "Hogar"
     },
     {
-      "description": "dale ya tu sabes",
-      "state": true,
-      "id": 10
+      "id": 2,
+      "name": "Trabajo"
     },
     {
-      "description": "dale ya tu sabes",
-      "state": false,
-      "id": 11
+      "id": 3,
+      "name": "Hobby"
     },
     {
-      "description": "deberes",
-      "state": false,
-      "id": 12
+      "id": 4,
+      "name": "Cumpleaños"
     }
   ]
 }
