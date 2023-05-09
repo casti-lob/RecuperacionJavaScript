@@ -1,0 +1,13 @@
+button {
+    background-color: yellow;
+    color: black;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  .button-clicked {
+    background-color: blue;
+    color: white;
+  }
+  
